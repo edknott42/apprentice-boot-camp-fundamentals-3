@@ -3,15 +3,15 @@
 
 name: TypeScript Node.js CI
 
+defaults:
+  run:
+    working-directory: exercises/typescript
+
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
-defaults:
-  run:
-    working-directory: exercises/typescript
 
 jobs:
   build:
@@ -24,13 +24,14 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          cache-dependency-path: 'exercises/typescript/package-lock.json'
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'exercises/typescript/package-lock.json'
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+            
